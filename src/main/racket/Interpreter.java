@@ -6,19 +6,9 @@ public class Interpreter {
     public Interpreter() {
 
     }
-    public Token interpretOne(ArrayList<Token> program) {
-        final Token op = program.remove(0);
-        final Token[] args = new Token[program.size()];
-        for (int i = 0; i < program.size(); i++) {
-            args[i] = program.get(i);
-        }
-        return this.eval(op, args);
-    }
-    public Token eval(Token operation, Token[] args) {
-        if (operation.getType() != Type.IDENTIFIER) {
-            // ...
-        }
-        switch (operation.getValue().toString()) {
+    public Thing eval(Thing program) {
+        final Thing[] args = (Thing[]) program.getChildren().toArray(new Thing[program.getChildren().size()]);
+        switch (program.getValue().toString()) {
             case "and":
                 return this.and(args);
             case "not":
@@ -30,23 +20,23 @@ public class Interpreter {
                 return null;
         }
     }
-    private Token and(Token[] args) {
-        for (Token t : args) {
+    private Thing and(Thing[] args) {
+        for (Thing t : args) {
             if (!(Boolean) t.getValue()) {
-                return new Token("false");
+                return new Thing("false", null);
             }
         }
-        return new Token("true");
+        return new Thing("true", null);
     }
-    private Token not(Token[] args) {
+    private Thing not(Thing[] args) {
         // check length
-        return new Token(!(Boolean) args[0].getValue());
+        return new Thing(!(Boolean) args[0].getValue(), null);
     }
-    private Token add(Token[] args) {
+    private Thing add(Thing[] args) {
         int result = 0;
-        for (Token t : args) {
+        for (Thing t : args) {
             result += (Integer) t.getValue();
         }
-        return new Token(result);
+        return new Thing(result, null);
     }
 }

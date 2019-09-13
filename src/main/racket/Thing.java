@@ -1,7 +1,15 @@
 package racket;
 
-public class Token {
+import java.util.ArrayList;
+
+public class Thing {
     private Object value;
+
+    public ArrayList<Thing> getChildren() {
+        return children;
+    }
+
+    private ArrayList<Thing> children;
 
     public Object getValue() {
         return value;
@@ -12,7 +20,8 @@ public class Token {
     }
 
     private Type type;
-    public Token(Object value) {
+    public Thing(Object value, ArrayList<Thing> children) {
+        this.children = children;
         if (value.equals("true") || value.equals("false")) {
             this.value = new Boolean(value.toString());
             this.type = Type.PRIMITIVE;
@@ -25,5 +34,11 @@ public class Token {
                 this.type = Type.IDENTIFIER;
             }
         }
+    }
+    public void addChild(Thing child) {
+        this.children.add(child);
+    }
+    public void addChildren(ArrayList<Thing> children) {
+        this.children.addAll(children);
     }
 }

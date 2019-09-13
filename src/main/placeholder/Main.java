@@ -1,7 +1,7 @@
 package placeholder;
 
 import racket.Interpreter;
-import racket.Token;
+import racket.Thing;
 import racket.Tokenizer;
 
 import java.util.ArrayList;
@@ -11,8 +11,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         final Interpreter interpreter = new Interpreter();
+
         while (true) {
-            final String result = interpreter.interpretOne((ArrayList<Token>) new Tokenizer(scanner.nextLine())
+            final String result = interpreter.eval(new Tokenizer(scanner.nextLine())
                     .split()
                     .tokenize()
                     .getTokens()

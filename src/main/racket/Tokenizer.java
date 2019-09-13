@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Tokenizer {
     private String program;
     private ArrayList<String> split;
-    private ArrayList<Object> tokens;
+    private ArrayList<Thing> tokens;
     public Tokenizer(String program) {
         this.program = program;
     }
@@ -18,22 +18,30 @@ public class Tokenizer {
         return this;
     }
     public Tokenizer tokenize() {
-        this.tokens = this.tokenizeRecursive(this.split, new ArrayList<Object>());
+        this.tokens = this.tokenizeRecursive(this.split, new ArrayList<Thing>());
         return this;
     }
-    private ArrayList<Object> tokenizeRecursive(ArrayList<String> program, ArrayList<Object> list) {
+    private ArrayList<Thing> tokenizeRecursive(ArrayList<String> program, ArrayList<Thing> list) {
         if (program.size() == 0) {
             return list;
         }
         final String first = program.remove(0);
         switch (first) {
             case "(":
-                list.add(tokenizeRecursive(program, new ArrayList<Object>()));
+                if (list.size() == 0) {
+                    list.addAll(tokenizeRecursive(program, new ArrayList<Thing>()));
+                } else {
+                    list.get(0).addChildren(tokenizeRecursive(program, new ArrayList<Thing>()));
+                }
                 return tokenizeRecursive(program, list);
             case ")":
                 return list;
             default:
-                list.add(new Token(first));
+                if (list.size() == 0) {
+                    list.add(new Thing(first, new ArrayList<Thing>()));
+                } else {
+                    list.get(0).addChild(new Thing(first, new ArrayList<Thing>()));
+                }
                 return tokenizeRecursive(program, list);
         }
     }
@@ -42,7 +50,7 @@ public class Tokenizer {
         return split;
     }
 
-    public ArrayList<Object> getTokens() {
+    public ArrayList<Thing> getTokens() {
         return tokens;
     }
 }
