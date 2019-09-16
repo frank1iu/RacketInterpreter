@@ -1,5 +1,5 @@
 package racket;
 
 public enum Type {
-    PRIMITIVE, IDENTIFIER
+    INTEGER, BOOLEAN, STRING, IDENTIFIER, VOID
 }

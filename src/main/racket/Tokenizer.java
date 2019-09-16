@@ -6,10 +6,12 @@ import java.util.Arrays;
 public class Tokenizer {
     private String program;
     private ArrayList<String> split;
-    private ArrayList<Thing> tokens;
+    private Thing thing;
     public Tokenizer(String program) {
         this.program = program;
     }
+    // MODIFIES: this
+    // EFFECTS: splits this.program and places into this.split
     public Tokenizer split() {
         this.split = new ArrayList<String>(Arrays.asList(this.program.replaceAll("\\(", " ( ")
                 .replaceAll("\\)", " ) ")
@@ -17,10 +19,14 @@ public class Tokenizer {
                 .split("\\s+")));
         return this;
     }
+    // REQUIRES: this.split() has been called
+    // MODIFIES: this
+    // EFFECTS: construct a racket.Thing from this.split
     public Tokenizer tokenize() {
-        this.tokens = this.tokenizeRecursive(this.split, new ArrayList<Thing>());
+        this.thing = this.tokenizeRecursive(this.split, new ArrayList<Thing>()).get(0);
         return this;
     }
+    // EFFECTS: construct a racket.Thing from parameter program
     private ArrayList<Thing> tokenizeRecursive(ArrayList<String> program, ArrayList<Thing> list) {
         if (program.size() == 0) {
             return list;
@@ -50,7 +56,7 @@ public class Tokenizer {
         return split;
     }
 
-    public ArrayList<Thing> getTokens() {
-        return tokens;
+    public Thing getThing() {
+        return thing;
     }
 }
