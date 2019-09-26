@@ -38,11 +38,7 @@ public class Tokenizer {
         final String first = program.remove(0);
         switch (first) {
             case "(":
-                if (list.size() == 0) {
-                    list.addAll(tokenizeRecursive(program, new ArrayList<Thing>()));
-                } else {
-                    list.get(0).addChildren(tokenizeRecursive(program, new ArrayList<Thing>()));
-                }
+                branchOne(program, list);
                 return tokenizeRecursive(program, list);
             case ")":
                 return list;
@@ -53,6 +49,14 @@ public class Tokenizer {
                     list.get(0).addChild(new Thing(first, new ArrayList<Thing>()));
                 }
                 return tokenizeRecursive(program, list);
+        }
+    }
+
+    private void branchOne(ArrayList<String> program, ArrayList<Thing> list) {
+        if (list.size() == 0) {
+            list.addAll(tokenizeRecursive(program, new ArrayList<Thing>()));
+        } else {
+            list.get(0).addChildren(tokenizeRecursive(program, new ArrayList<Thing>()));
         }
     }
 
