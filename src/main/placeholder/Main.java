@@ -1,12 +1,13 @@
 package placeholder;
 
-import racket.Interpreter;
-import racket.Tokenizer;
+import racket.*;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RacketSyntaxError {
         Scanner scanner = new Scanner(System.in);
         final Interpreter interpreter = new Interpreter(null);
         while (true) {
