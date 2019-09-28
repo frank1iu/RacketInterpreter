@@ -30,6 +30,7 @@ public class Tokenizer {
         return this;
     }
 
+    // REQUIRES: valid program
     // EFFECTS: construct a racket.Thing from parameter program
     private ArrayList<Thing> tokenizeRecursive(ArrayList<String> program, ArrayList<Thing> list) {
         if (program.size() == 0) {

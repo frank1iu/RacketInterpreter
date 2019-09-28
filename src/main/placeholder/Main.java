@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws RacketSyntaxError {
         Scanner scanner = new Scanner(System.in);
+        final FileWriter fileWriter = new Interpreter(null);
         final Interpreter interpreter = new Interpreter(null);
         while (true) {
             System.out.print("> ");

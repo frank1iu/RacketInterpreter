@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class InterpretationTest {
@@ -18,6 +20,12 @@ public class InterpretationTest {
         } catch (RacketSyntaxError e) {
             return null;
         }
+    }
+
+    @Test
+    public void testCheckExpect() {
+        Assertions.assertEquals(eval("(check-expect 1 1)"), "(void)");
+        // ...
     }
 
     @Test
@@ -48,17 +56,18 @@ public class InterpretationTest {
     }
 
     @Test
-    public void testAdd() {
+    public void testMath() {
         Assertions.assertEquals(eval("(+ 1 2)"), "3");
         Assertions.assertEquals(eval("(+ 3 4)"), "7");
         Assertions.assertEquals(eval("(+ 3 -4)"), "-1");
-    }
-
-    @Test
-    public void testSub() {
         Assertions.assertEquals(eval("(- 1 2)"), "-1");
         Assertions.assertEquals(eval("(- 2 1)"), "1");
         Assertions.assertEquals(eval("(- 1 -2)"), "3");
+        Assertions.assertEquals(eval("(* 1 2)"), "2");
+        Assertions.assertEquals(eval("(* 2 1)"), "2");
+        Assertions.assertEquals(eval("(* 1 -2)"), "-2");
+        Assertions.assertEquals(eval("(pow 2 3)"), "8");
+        Assertions.assertEquals(eval("(pow 2 4)"), "16");
     }
 
     @Test
@@ -76,7 +85,7 @@ public class InterpretationTest {
         Assertions.assertEquals(eval("(test-func true false)"), "true");
         Assertions.assertEquals(eval("(test-func false false)"), "false");
         eval("(define (test-func-2 test-param-a test-param-b) " +
-                "(> test-param-a test-param-b)");
+                "(> (abs test-param-a) (abs test-param-b))");
         Assertions.assertEquals(eval("(test-func-2 1 1)"), "false");
         Assertions.assertEquals(eval("(test-func-2 2 -1)"), "true");
     }
@@ -94,13 +103,6 @@ public class InterpretationTest {
     }
 
     @Test
-    public void testCheckExpect() {
-        // how to test??
-        Assertions.assertEquals(eval("(check-expect 1 1)"), "(void)");
-        Assertions.assertEquals(eval("(check-expect 1 2)"), "(void)");
-    }
-
-    @Test
     public void testCompare() {
         Assertions.assertEquals(eval("(> 1 1)"), "false");
         Assertions.assertEquals(eval("(> 2 1)"), "true");
@@ -111,9 +113,21 @@ public class InterpretationTest {
     }
 
     @Test
-    public void testAbs() {
+    public void testWriteFile() throws IOException {
+        final Path path = Paths.get(System.getProperty("user.dir") + "/lib/result");
+        interpreter.writeFile(path, "1");
+        final String content = new String(Files.readAllBytes(path));
+        Assertions.assertEquals(content, "1\n");
+
+        interpreter.writeFile(path, "true");
+        final String content2 = new String(Files.readAllBytes(path));
+        Assertions.assertEquals(content2, "true\n");
+    }
+
+    @Test
+    public void testLoadFile() {
         Assertions.assertEquals(eval("(abs -1)"), "1");
-        Assertions.assertEquals(eval("(abs 0)"), "0");
         Assertions.assertEquals(eval("(abs 1)"), "1");
+        Assertions.assertEquals(eval("(abs 0)"), "0");
     }
 }
