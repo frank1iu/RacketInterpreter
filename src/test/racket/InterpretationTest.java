@@ -36,9 +36,12 @@ public class InterpretationTest {
     }
 
     @Test
-    public void testCheckExpect() {
+    public void testCheckExpect() throws RacketSyntaxError {
         Assertions.assertEquals(eval("(check-expect 1 1)"), "(void)");
-        // ...
+        Assertions.assertNull(interpreter.eval(new Tokenizer("(check-expect 1 2)")
+                .split()
+                .tokenize()
+                .getThing()));
     }
 
     @Test
@@ -132,7 +135,7 @@ public class InterpretationTest {
         final String content = new String(Files.readAllBytes(path));
         Assertions.assertEquals(content, "1\n");
 
-        interpreter.writeFile(path, "true");
+        eval("(save! true)");
         final String content2 = new String(Files.readAllBytes(path));
         Assertions.assertEquals(content2, "true\n");
     }
