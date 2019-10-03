@@ -20,10 +20,8 @@ public class Interpreter implements FileReader, FileWriter {
         }
         try {
             this.loadFile(Paths.get(System.getProperty("user.dir") + "/lib/init.rkt"));
-        } catch (RacketSyntaxError racketSyntaxError) {
+        } catch (RacketSyntaxError | IOException racketSyntaxError) {
             racketSyntaxError.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

@@ -23,6 +23,19 @@ public class InterpretationTest {
     }
 
     @Test
+    public void testError() {
+        try {
+            interpreter.eval(new Tokenizer("(asdf 123)")
+                    .split()
+                    .tokenize()
+                    .getThing()).toString();
+            Assertions.fail();
+        } catch (RacketSyntaxError racketSyntaxError) {
+            racketSyntaxError.printStackTrace();
+        }
+    }
+
+    @Test
     public void testCheckExpect() {
         Assertions.assertEquals(eval("(check-expect 1 1)"), "(void)");
         // ...
