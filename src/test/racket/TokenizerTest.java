@@ -19,15 +19,13 @@ public class TokenizerTest {
     @Test
     public void testTokenize() {
         final Tokenizer t1 = new Tokenizer(programs[2]).split().tokenize();
-        final Thing result1 = new Thing("+", new ArrayList<Thing>(Arrays.asList(new Thing[] {
-            new Thing("1", null), new Thing("2", null)
-        })));
+        final Thing result1 = new Thing("+", new ArrayList<Thing>(Arrays.asList(new Thing("1",
+                null), new Thing("2", null))));
         Assertions.assertTrue(t1.getThing().equals(result1));
 
         final Tokenizer t2 = new Tokenizer(programs[0]).split().tokenize();
-        final Thing result2 = new Thing("and", new ArrayList<Thing>(Arrays.asList(new Thing[] {
-                new Thing("true", null), new Thing("true", null)
-        })));
+        final Thing result2 = new Thing("and", new ArrayList<Thing>(Arrays.asList(new Thing("true",
+                null), new Thing("true", null))));
         Assertions.assertTrue(t2.getThing().equals(result2));
     }
 }

@@ -29,7 +29,7 @@ public class InterpretationTest {
     }
 
     @Test
-    public void testRacketTests() {
+    public void doRacketTests() {
         try {
             interpreter.loadFile(Paths.get(System.getProperty("user.dir") + "/lib/test.rkt"));
         } catch (IOException | RacketSyntaxError e) {

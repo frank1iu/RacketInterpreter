@@ -27,7 +27,7 @@ public class Interpreter implements FileReader, FileWriter {
         }
     }
 
-    // REQUIRES: valid file path
+    // REQUIRES: valid file path to a ASCII rkt file created by DrRacket
     // MODIFIES: this
     // EFFECTS: reads and evaluates file
 
