@@ -104,6 +104,15 @@ public class InterpretationTest {
                 "(> (abs test-param-a) (abs test-param-b))");
         Assertions.assertEquals(eval("(test-func-2 1 1)"), "false");
         Assertions.assertEquals(eval("(test-func-2 2 -1)"), "true");
+        try {
+            interpreter.eval(new Tokenizer("(test-func 1)")
+                    .split()
+                    .tokenize()
+                    .getThing()).toString();
+            Assertions.fail();
+        } catch (RacketSyntaxError racketSyntaxError) {
+            Assertions.assertEquals(racketSyntaxError.getMessage(), "test-func: expects 2 arguments, but found 1");
+        }
     }
 
     @Test

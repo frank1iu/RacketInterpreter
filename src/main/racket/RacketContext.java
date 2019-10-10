@@ -6,10 +6,6 @@ public class RacketContext {
     private HashMap<String, Thing> context;
     private RacketContext parent;
 
-    public RacketContext getParent() {
-        return parent;
-    }
-
     // REQUIRES: none
     // MODIFIES: none
     // EFFECTS: puts a thing and a key into the context

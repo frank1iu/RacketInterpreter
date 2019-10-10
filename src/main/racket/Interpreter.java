@@ -45,13 +45,10 @@ public class Interpreter implements FileReader, FileWriter {
         if (program.getChildren().size() == 0) {
             if (program.getType() == Type.IDENTIFIER) {
                 Thing thing = context.get(program.getValue().toString());
-                if (thing.getType() == Type.IDENTIFIER) {
+                if (thing.getType() == Type.IDENTIFIER || thing.getChildren().size() != 0) {
                     return eval(thing);
-                }
-                if (thing.getChildren().size() == 0) {
-                    return thing;
                 } else {
-                    return eval(thing);
+                    return thing;
                 }
             } else {
                 return program;
@@ -200,7 +197,7 @@ public class Interpreter implements FileReader, FileWriter {
             return ret;
         } else {
             throw new RacketAssertionError("Actual value "
-                    + result[0] + " differs from " + result[1] + ", the expected value.", result[0], result[1]);
+                    + result[0] + " differs from " + result[1] + ", the expected value.");
         }
     }
 

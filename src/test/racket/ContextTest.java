@@ -14,5 +14,7 @@ public class ContextTest {
         final RacketContext child = new RacketContext(parent);
         Assertions.assertTrue(child.containsKey("a"));
         Assertions.assertTrue(child.get("a").equals(new Thing("true", null)));
+
+        Assertions.assertNull(child.get("asdfghjkl"));
     }
 }

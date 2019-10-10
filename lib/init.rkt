@@ -12,3 +12,39 @@
   (if (> (- 0 x) x)
       (- 0 x)
       x))
+
+(define (zero? x)
+  (= x 0))
+
+(define (max a b)
+  (if (> a b)
+      a
+      b))
+
+(define (min a b)
+  (if (< a b)
+      a
+      b))
+
+(define (negative? x)
+  (< x 0))
+
+(define (positive? x)
+  (> x 0))
+
+(define (sqr x)
+  (* x x))
+
+(define (mod a b)
+  (if (< a b)
+      a
+      (if (< a (* 2 b))
+          (- a b)
+          (mod (max (- a b) b)
+               (min (- a b) b)))))
+
+(define (gcd a b)
+  (if (= b 0)
+      (abs a)
+      (gcd (abs b)
+           (mod (abs a) (abs b)))))

@@ -23,3 +23,31 @@
 (check-expect (abs -1) 1)
 
 (check-expect (abs 1) 1)
+
+(check-expect (max 1 0) 1)
+
+(check-expect (max 1 1) 1)
+
+(check-expect (max 0 1) 1)
+
+(check-expect (min -1 1) -1)
+
+(check-expect (min 0 0) 0)
+
+(check-expect (min 1 -1) -1)
+
+(check-expect (zero? 1) false)
+
+(check-expect (zero? 0) true)
+
+(check-expect (mod 4 8) 4)
+
+(check-expect (mod 8 4) 0)
+
+(check-expect (mod 12 5) 2)
+
+(check-expect (gcd 12 5) 1)
+
+(check-expect (gcd 12 -4) 4)
+
+(check-expect (gcd 17 34) 17)

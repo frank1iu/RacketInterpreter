@@ -1,12 +1,13 @@
 package racket;
 
-public class RacketAssertionError extends Exception {
-    private Thing actual;
-    private Thing expected;
+public class RacketAssertionError extends RacketError {
 
-    public RacketAssertionError(String errorMessage, Thing expected, Thing actual) {
+    public RacketAssertionError(String errorMessage) {
         super(errorMessage);
-        this.expected = expected;
-        this.actual = actual;
+    }
+
+    @Override
+    public String toString() {
+        return "Assertion Error: " + this.getMessage();
     }
 }
