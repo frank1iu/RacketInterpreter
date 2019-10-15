@@ -1,6 +1,6 @@
 package racket;
 
-public class RacketAssertionError extends RacketError {
+public class RacketAssertionError extends AbstractRacketError {
 
     public RacketAssertionError(String errorMessage) {
         super(errorMessage);

@@ -20,8 +20,8 @@ public class Interpreter implements FileReader, FileWriter {
         }
         try {
             this.loadFile(Paths.get(System.getProperty("user.dir") + "/lib/init.rkt"));
-        } catch (RacketSyntaxError | IOException racketSyntaxError) {
-            racketSyntaxError.printStackTrace();
+        } catch (RacketSyntaxError | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -106,6 +106,8 @@ public class Interpreter implements FileReader, FileWriter {
                 return this.pow(args);
             case "save!":
                 return this.writeToFile(args);
+            case "load":
+                return this.readFile(args);
             case "define":
                 this.define(args);
                 return new Thing("(void)", null);
@@ -253,7 +255,7 @@ public class Interpreter implements FileReader, FileWriter {
     // EFFECTS: writes the content to result file
     //          and return true if successful, false otherwise
     private Thing writeToFile(Thing[] args) throws RacketSyntaxError {
-        final Path path = Paths.get(System.getProperty("user.dir") + "/lib/result");
+        final Path path = Paths.get(System.getProperty("user.dir") + "/data/result");
         try {
             this.writeFile(path, eval(args[0]).getValue().toString());
             return new Thing("true", null);
@@ -285,5 +287,26 @@ public class Interpreter implements FileReader, FileWriter {
 
     public void writeFile(Path path, String content) throws IOException {
         Files.write(path, Collections.singleton(content), StandardCharsets.UTF_8);
+    }
+
+    // EFFECTS: load file in data folder, returns a Thing if file is found
+
+    private Thing readFile(Thing[] args) {
+        final String filename = args[0].getValue().toString();
+        Path path = Paths.get(System.getProperty("user.dir") + "/data/" + filename);
+        Thing ret = null;
+        try {
+            final String program = new String(Files.readAllBytes(path));
+            ret = eval(new Tokenizer(program).split().tokenize().getThing());
+        } catch (IOException e) {
+            throw new GenericRacketError("file not found");
+        } catch (RacketSyntaxError racketSyntaxError) {
+            throw new GenericRacketError("loading file failed");
+        } catch (RuntimeException evalError) {
+            throw new GenericRacketError("error occurred while loading file");
+        } finally {
+            path = null;
+        }
+        return ret;
     }
 }

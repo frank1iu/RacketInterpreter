@@ -31,20 +31,31 @@ public class Thing {
     }
 
     public void setValue(String value) {
-        if (value.equals("true") || value.equals("false")) {
+        if (value.startsWith("\"")) {
+            if (!value.endsWith("\"") || value.length() == 1) {
+                throw new RacketSyntaxError("expected a closing \"");
+            } else {
+                this.type = Type.STRING;
+                this.value = value.substring(1, value.length() - 1);
+            }
+        } else if (value.equals("true") || value.equals("false")) {
             this.value = Boolean.valueOf(value);
             this.type = Type.BOOLEAN;
         } else if (value.equals("(void)")) {
             this.value = value;
             this.type = Type.VOID;
         } else {
-            try {
-                this.value = Integer.parseInt(value);
-                this.type = Type.INTEGER;
-            } catch (NumberFormatException e) {
-                this.value = value;
-                this.type = Type.IDENTIFIER;
-            }
+            setValue2(value);
+        }
+    }
+
+    private void setValue2(String value) {
+        try {
+            this.value = Integer.parseInt(value);
+            this.type = Type.INTEGER;
+        } catch (NumberFormatException e) {
+            this.value = value;
+            this.type = Type.IDENTIFIER;
         }
     }
 
@@ -53,7 +64,11 @@ public class Thing {
     // EFFECTS: returns a string representation of this
     public String toString() {
         if (this.children.size() == 0) {
-            return this.value.toString();
+            if (this.type == Type.STRING) {
+                return "\"" + this.value.toString() + "\"";
+            } else {
+                return this.value.toString();
+            }
         } else {
             String ret = "(" + this.value.toString();
             for (Thing t: this.children) {

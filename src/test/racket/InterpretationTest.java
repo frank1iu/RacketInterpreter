@@ -139,7 +139,7 @@ public class InterpretationTest {
 
     @Test
     public void testWriteFile() throws IOException {
-        final Path path = Paths.get(System.getProperty("user.dir") + "/lib/result");
+        final Path path = Paths.get(System.getProperty("user.dir") + "/data/result");
         interpreter.writeFile(path, "1");
         final String content = new String(Files.readAllBytes(path));
         Assertions.assertEquals(content, "1\n");
@@ -151,8 +151,20 @@ public class InterpretationTest {
 
     @Test
     public void testLoadFile() {
-        Assertions.assertEquals(eval("(abs -1)"), "1");
-        Assertions.assertEquals(eval("(abs 1)"), "1");
-        Assertions.assertEquals(eval("(abs 0)"), "0");
+        eval("(save! 3)");
+        Assertions.assertEquals(eval("(load \"result\")"), "3");
+        eval("(save! \"a1\")");
+        try {
+            eval("(load \"result\")");
+            Assertions.fail();
+        } catch (GenericRacketError e) {
+            Assertions.assertEquals(e.toString(), "Error: error occurred while loading file");
+        }
+        try {
+            eval("(load \"541fbefb712e83c314e9f8e73910e09128f42ace\")");
+            Assertions.fail();
+        } catch (GenericRacketError e) {
+            Assertions.assertEquals(e.toString(), "Error: file not found");
+        }
     }
 }

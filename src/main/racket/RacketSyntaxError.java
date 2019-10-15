@@ -1,6 +1,6 @@
 package racket;
 
-public class RacketSyntaxError extends RacketError {
+public class RacketSyntaxError extends AbstractRacketError {
 
     private Thing program;
 
