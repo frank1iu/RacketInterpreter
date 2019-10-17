@@ -299,7 +299,7 @@ public class Interpreter implements FileReader, FileWriter {
             final String program = new String(Files.readAllBytes(path));
             ret = eval(new Tokenizer(program).split().tokenize().getThing());
         } catch (IOException e) {
-            throw new GenericRacketError("file not found");
+            return new Thing("(void)", null);
         } catch (RacketSyntaxError racketSyntaxError) {
             throw new GenericRacketError("loading file failed");
         } catch (RuntimeException evalError) {

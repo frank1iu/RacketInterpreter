@@ -28,10 +28,10 @@ public class InterpretationTest {
             interpreter.eval(new Tokenizer("(asdf 123)")
                     .split()
                     .tokenize()
-                    .getThing()).toString();
+                    .getThing());
             Assertions.fail();
         } catch (RacketSyntaxError racketSyntaxError) {
-            racketSyntaxError.printStackTrace();
+            Assertions.assertEquals(racketSyntaxError.toString(), "Syntax Error: asdf: this function is not defined");
         }
     }
 
@@ -150,7 +150,14 @@ public class InterpretationTest {
     }
 
     @Test
-    public void testLoadFile() {
+    public void testLoadFile() throws IOException {
+        try {
+            interpreter.writeFile(Paths.get(System.getProperty("user.dir") + "/data/result"), "(asdf 123)");
+            eval("(load \"result\")");
+            Assertions.fail();
+        } catch (GenericRacketError genericRacketError) {
+            Assertions.assertEquals(genericRacketError.toString(), "Error: loading file failed");
+        }
         eval("(save! 3)");
         Assertions.assertEquals(eval("(load \"result\")"), "3");
         eval("(save! \"a1\")");
@@ -160,11 +167,6 @@ public class InterpretationTest {
         } catch (GenericRacketError e) {
             Assertions.assertEquals(e.toString(), "Error: error occurred while loading file");
         }
-        try {
-            eval("(load \"541fbefb712e83c314e9f8e73910e09128f42ace\")");
-            Assertions.fail();
-        } catch (GenericRacketError e) {
-            Assertions.assertEquals(e.toString(), "Error: file not found");
-        }
+        Assertions.assertEquals(eval("(load \"541fbefb712e83c314e9f8e73910e09128f42ace\")"), "(void)");
     }
 }
