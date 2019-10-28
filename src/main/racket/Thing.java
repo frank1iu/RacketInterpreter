@@ -1,6 +1,7 @@
 package racket;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Thing {
     private Object value;
@@ -49,6 +50,27 @@ public class Thing {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Thing thing = (Thing) o;
+        return Objects.equals(value, thing.value)
+                &&
+                Objects.equals(children, thing.children)
+                &&
+                type == thing.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, children, type);
+    }
+
     private void setValue2(String value) {
         try {
             this.value = Integer.parseInt(value);
@@ -95,6 +117,7 @@ public class Thing {
     // REQUIRES: none
     // MODIFIES: none
     // EFFECTS: returns whether this is equal to param thing
+    /*
     public boolean equals(Thing thing) {
         if (!this.value.equals(thing.getValue()) || this.type != thing.getType()) {
             return false;
@@ -111,5 +134,5 @@ public class Thing {
             }
             return true;
         }
-    }
+    }*/
 }

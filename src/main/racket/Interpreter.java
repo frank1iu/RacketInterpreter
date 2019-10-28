@@ -10,13 +10,24 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class Interpreter implements FileReader, FileWriter {
+    public RacketContext getContext() {
+        return context;
+    }
+
+    public void setContext(RacketContext context) {
+        this.context = context;
+        if (context.getInterpreter() == null || !context.getInterpreter().equals(this)) {
+            context.setInterpreter(this);
+        }
+    }
+
     private RacketContext context;
 
     public Interpreter(RacketContext context) {
         if (context == null) {
-            this.context = new RacketContext(null);
+            this.setContext(new RacketContext(null));
         } else {
-            this.context = context;
+            this.setContext(context);
         }
         try {
             this.loadFile(Paths.get(System.getProperty("user.dir") + "/lib/init.rkt"));
