@@ -94,7 +94,7 @@ public class Thing {
         } else {
             String ret = "(" + this.value.toString();
             for (Thing t: this.children) {
-                ret += " " + t.toString();
+                ret = ret + " " + t.toString();
             }
             return ret + ")";
         }
@@ -113,26 +113,4 @@ public class Thing {
     public void addChildren(ArrayList<Thing> children) {
         this.children.addAll(children);
     }
-
-    // REQUIRES: none
-    // MODIFIES: none
-    // EFFECTS: returns whether this is equal to param thing
-    /*
-    public boolean equals(Thing thing) {
-        if (!this.value.equals(thing.getValue()) || this.type != thing.getType()) {
-            return false;
-        } else if (this.children.size() == 0 && thing.getChildren().size() == 0) {
-            return true;
-        } else if (this.children.size() != thing.getChildren().size()) {
-            return false;
-        } else {
-            for (int i = 0; i < this.children.size(); i++) {
-                if (this.children.get(i).equals(thing.getChildren().get(i))) {
-                    continue;
-                }
-                return false;
-            }
-            return true;
-        }
-    }*/
 }

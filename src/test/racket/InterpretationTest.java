@@ -108,7 +108,7 @@ public class InterpretationTest {
             interpreter.eval(new Tokenizer("(test-func 1)")
                     .split()
                     .tokenize()
-                    .getThing()).toString();
+                    .getThing());
             Assertions.fail();
         } catch (RacketSyntaxError racketSyntaxError) {
             Assertions.assertEquals(racketSyntaxError.getMessage(), "test-func: expects 2 arguments, but found 1");

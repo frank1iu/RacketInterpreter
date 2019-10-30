@@ -49,6 +49,19 @@ public class Interpreter implements FileReader, FileWriter {
         }
     }
 
+    // REQUIRES: valid file path to a ASCII rkt file created by DrRacket
+    // MODIFIES: this
+    // EFFECTS: reads and evaluates file
+
+    public Thing execProgram(String program) throws RacketSyntaxError {
+        final ArrayList<String> expressions = new ArrayList<String>(Arrays.asList(program.split("\n\n")));
+        Thing ret = null;
+        for (String expression : expressions) {
+            ret = this.eval(new Tokenizer(expression).split().tokenize().getThing());
+        }
+        return ret;
+    }
+
     // REQUIRES: valid racket program
     // MODIFIES: this
     // EFFECTS: evaluates program
@@ -245,7 +258,8 @@ public class Interpreter implements FileReader, FileWriter {
     // REQUIRES: two integer args
     // EFFECTS: return true if args[0] = args[1]
     private Thing equiv(Thing[] args) throws RacketSyntaxError {
-        return new Thing(Boolean.toString((Integer) eval(args[0]).getValue() == (Integer) eval(args[1]).getValue()),
+        return new Thing(Boolean.toString(((Integer) eval(args[0]).getValue())
+                .equals((Integer) eval(args[1]).getValue())),
                 null);
     }
 
@@ -305,7 +319,7 @@ public class Interpreter implements FileReader, FileWriter {
     private Thing readFile(Thing[] args) {
         final String filename = args[0].getValue().toString();
         Path path = Paths.get(System.getProperty("user.dir") + "/data/" + filename);
-        Thing ret = null;
+        Thing ret;
         try {
             final String program = new String(Files.readAllBytes(path));
             ret = eval(new Tokenizer(program).split().tokenize().getThing());
@@ -315,8 +329,6 @@ public class Interpreter implements FileReader, FileWriter {
             throw new GenericRacketError("loading file failed");
         } catch (RuntimeException evalError) {
             throw new GenericRacketError("error occurred while loading file");
-        } finally {
-            path = null;
         }
         return ret;
     }
