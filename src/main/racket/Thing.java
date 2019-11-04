@@ -59,11 +59,8 @@ public class Thing {
             return false;
         }
         Thing thing = (Thing) o;
-        return Objects.equals(value, thing.value)
-                &&
-                Objects.equals(children, thing.children)
-                &&
-                type == thing.type;
+        return Objects.equals(value, thing.value)  && Objects.equals(children, thing.children)
+                && type == thing.type;
     }
 
     @Override
@@ -103,6 +100,27 @@ public class Thing {
             }
             return ret + ")";
         }
+    }
+
+    // REQUIRES: none
+    // MODIFIES: none
+    // EFFECTS: returns a string representation of this, along with its type
+    public String stringify() {
+        String ret = "";
+        if (this.children.size() == 0) {
+            if (this.type == Type.STRING) {
+                ret += "\"" + this.value.toString() + "\"";
+            } else {
+                ret += this.value.toString();
+            }
+        } else {
+            ret = "(" + this.value.toString();
+            for (Thing t: this.children) {
+                ret = ret + " " + t.toString();
+            }
+            ret += ")";
+        }
+        return this.getType().toString() + ret;
     }
 
     // REQUIRES: none
