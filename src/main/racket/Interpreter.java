@@ -334,8 +334,7 @@ public class Interpreter implements FileReader, FileWriter {
     // MODIFIES: none
     // EFFECTS: returns the product of the args
     private Thing mult3(Thing[] args) throws RacketSyntaxError {
-        return new Thing(Integer.toString((Integer) eval(args[0]).getValue() * (Integer) eval(args[1])
-                .getValue() * (Integer) eval(args[2]).getValue()), null);
+        return mult(new Thing[]{args[0], mult(new Thing[]{args[1], args[2]})});
     }
 
     // REQUIRES: two integer args

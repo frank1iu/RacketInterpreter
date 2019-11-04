@@ -106,21 +106,7 @@ public class Thing {
     // MODIFIES: none
     // EFFECTS: returns a string representation of this, along with its type
     public String stringify() {
-        String ret = "";
-        if (this.children.size() == 0) {
-            if (this.type == Type.STRING) {
-                ret += "\"" + this.value.toString() + "\"";
-            } else {
-                ret += this.value.toString();
-            }
-        } else {
-            ret = "(" + this.value.toString();
-            for (Thing t: this.children) {
-                ret = ret + " " + t.toString();
-            }
-            ret += ")";
-        }
-        return this.getType().toString() + ret;
+        return this.getType().toString() + this.toString();
     }
 
     // REQUIRES: none
