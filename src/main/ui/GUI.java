@@ -5,16 +5,10 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import racket.AbstractRacketError;
 import racket.Interpreter;
-import racket.RacketSyntaxError;
-import racket.Tokenizer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 public class GUI {
     public static void main(String[] args) throws IOException {
@@ -41,10 +35,10 @@ public class GUI {
             try {
                 return interpreter.execProgram(program).toString();
             } catch (AbstractRacketError e) {
-                return e.getMessage();
+                return e.toString();
             } catch (RuntimeException e) {
                 e.printStackTrace();
-                return "Java Backend: Caught RuntimeException, check console!";
+                return "Caught RuntimeException, check console!";
             }
         }
     }

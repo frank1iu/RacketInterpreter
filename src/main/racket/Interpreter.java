@@ -53,7 +53,7 @@ public class Interpreter implements FileReader, FileWriter {
     // MODIFIES: this
     // EFFECTS: reads and evaluates file
 
-    public Thing execProgram(String program) throws RacketSyntaxError {
+    public Thing execProgram(String program) throws AbstractRacketError {
         final ArrayList<String> expressions = new ArrayList<String>(Arrays.asList(program.split("\n\n")));
         Thing ret = null;
         for (String expression : expressions) {
