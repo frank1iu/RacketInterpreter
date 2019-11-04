@@ -57,6 +57,7 @@ public class Interpreter implements FileReader, FileWriter {
         final ArrayList<String> expressions = new ArrayList<String>(Arrays.asList(program.split("\n\n")));
         Thing ret = null;
         for (String expression : expressions) {
+            final String line = expression.replaceAll("\\s+", " ").replaceAll("\n", "");
             ret = this.eval(new Tokenizer(expression).split().tokenize().getThing());
         }
         return ret;
@@ -67,6 +68,9 @@ public class Interpreter implements FileReader, FileWriter {
     // EFFECTS: evaluates program
     public Thing eval(Thing program) throws RacketSyntaxError {
         if (program.getChildren().size() == 0) {
+            if (program.getType() == Type.EMPTY) {
+                return program;
+            }
             if (program.getType() == Type.IDENTIFIER) {
                 Thing thing = context.get(program.getValue().toString());
                 if (thing.getType() == Type.IDENTIFIER || thing.getChildren().size() != 0) {
@@ -136,6 +140,21 @@ public class Interpreter implements FileReader, FileWriter {
                 this.define(args);
                 return new Thing("(void)", null);
             default:
+                return switchStatement4(op, args, program);
+        }
+    }
+
+    private Thing switchStatement4(String op, Thing[] args, Thing program) throws RacketSyntaxError {
+        switch (op) {
+            case "cons":
+                return this.cons(args);
+            case "first":
+                return this.first(args);
+            case "rest":
+                return this.rest(args);
+            case "empty?":
+                return this.empty(args);
+            default:
                 return switchStatementDefault(op, args, program);
         }
     }
@@ -152,7 +171,21 @@ public class Interpreter implements FileReader, FileWriter {
         }
     }
 
+    private Thing first(Thing[] args) {
+        return ((RacketPair) eval(args[0])).first();
+    }
 
+    private Thing rest(Thing[] args) {
+        return ((RacketPair) eval(args[0])).rest();
+    }
+
+    private RacketPair cons(Thing[] args) {
+        return new RacketPair(eval(args[0]), eval(args[1]));
+    }
+
+    private Thing empty(Thing[] args) {
+        return new Thing(Boolean.toString(eval(args[0]).getType() == Type.EMPTY), null);
+    }
 
     // REQUIRES: boolean args
     // EFFECTS: produces a boolean AND on args

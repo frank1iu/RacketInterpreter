@@ -31,7 +31,7 @@ public class Thing {
         this.setValue(value);
     }
 
-    public void setValue(String value) {
+    protected void setValue(String value) {
         if (value.startsWith("\"")) {
             if (!value.endsWith("\"") || value.length() == 1) {
                 throw new RacketSyntaxError("expected a closing \"");
@@ -72,6 +72,11 @@ public class Thing {
     }
 
     private void setValue2(String value) {
+        if (value.equals("empty")) {
+            this.value = value;
+            this.type = Type.EMPTY;
+            return;
+        }
         try {
             this.value = Integer.parseInt(value);
             this.type = Type.INTEGER;

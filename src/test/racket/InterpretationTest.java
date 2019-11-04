@@ -60,6 +60,21 @@ public class InterpretationTest {
     }
 
     @Test
+    public void testPairs() {
+        eval("(define PAIRTEST (cons 1 (cons 2 empty)))");
+        Assertions.assertEquals(eval("PAIRTEST"), "(cons 1 (cons 2 empty))");
+        Assertions.assertEquals(eval("(first PAIRTEST)"), "1");
+        Assertions.assertEquals(eval("(first (rest PAIRTEST))"), "2");
+        Assertions.assertEquals(eval("(rest (rest PAIRTEST))"), "empty");
+        try {
+            eval("(cons 1 2)");
+            Assertions.fail();
+        } catch (GenericRacketError ignored) {
+
+        }
+    }
+
+    @Test
     public void testNot() {
         Assertions.assertEquals(eval("(not true)"), "false");
         Assertions.assertEquals(eval("(not false)"), "true");

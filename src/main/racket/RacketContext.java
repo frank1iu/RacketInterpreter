@@ -57,11 +57,8 @@ public class RacketContext {
             return false;
         }
         RacketContext that = (RacketContext) o;
-        return Objects.equals(context, that.context)
-                &&
-                Objects.equals(parent, that.parent)
-                &&
-                Objects.equals(interpreter, that.interpreter);
+        return Objects.equals(context, that.context) && Objects.equals(parent, that.parent)
+                && Objects.equals(interpreter, that.interpreter);
     }
 
     @Override

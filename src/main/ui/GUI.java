@@ -28,7 +28,7 @@ public class GUI {
     static class ExecHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange req) throws IOException {
-            final String program = req.getRequestURI().getQuery().split("=")[1];
+            final String program = req.getRequestURI().getQuery().substring(8);
             final String response = eval(program);
             req.sendResponseHeaders(200, response.length());
             OutputStream os = req.getResponseBody();
@@ -39,7 +39,7 @@ public class GUI {
         private String eval(String program) {
             final Interpreter interpreter = new Interpreter(null);
             try {
-                return interpreter.execProgram(program).getValue().toString();
+                return interpreter.execProgram(program).toString();
             } catch (AbstractRacketError e) {
                 return e.getMessage();
             } catch (RuntimeException e) {
