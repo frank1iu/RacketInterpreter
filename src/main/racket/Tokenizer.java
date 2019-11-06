@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Tokenizer {
-    private String program;
     private ArrayList<String> split;
     private Thing thing;
+    private StringSplitter stringSplitter;
 
     public Tokenizer(String program) {
-        this.program = program;
+        this.stringSplitter = new StringSplitter(program);
     }
 
     // MODIFIES: this
     // EFFECTS: splits this.program and places into this.split
     public Tokenizer split() {
-        this.split = new ArrayList<String>(Arrays.asList(this.program.replaceAll("\\(", " ( ")
-                .replaceAll("\\)", " ) ")
-                .trim()
-                .split("\\s+")));
+        this.split = stringSplitter.split();
         return this;
     }
 

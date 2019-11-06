@@ -58,6 +58,9 @@ public class Interpreter implements FileReader, FileWriter {
         Thing ret = null;
         for (String expression : expressions) {
             final String line = expression.replaceAll("\\s+", " ").replaceAll("\n", "");
+            if (line.startsWith(";")) {
+                continue;
+            }
             ret = this.eval(new Tokenizer(expression).split().tokenize().getThing());
         }
         return ret;
