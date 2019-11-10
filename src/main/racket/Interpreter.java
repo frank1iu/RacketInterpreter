@@ -16,9 +16,6 @@ public class Interpreter extends EventEmitter implements FileReader, FileWriter 
 
     public void setContext(RacketContext context) {
         this.context = context;
-        if (context.getInterpreter() == null || !context.getInterpreter().equals(this)) {
-            context.setInterpreter(this);
-        }
     }
 
     private RacketContext context;

@@ -7,19 +7,6 @@ public class RacketContext extends EventEmitter {
     private HashMap<String, Thing> context;
     private RacketContext parent;
 
-    public Interpreter getInterpreter() {
-        return interpreter;
-    }
-
-    public void setInterpreter(Interpreter interpreter) {
-        this.interpreter = interpreter;
-        if (interpreter.getContext() == null || !interpreter.getContext().equals(this)) {
-            interpreter.setContext(this);
-        }
-    }
-
-    private Interpreter interpreter;
-
     // REQUIRES: none
     // MODIFIES: none
     // EFFECTS: puts a thing and a key into the context
@@ -59,13 +46,12 @@ public class RacketContext extends EventEmitter {
             return false;
         }
         RacketContext that = (RacketContext) o;
-        return Objects.equals(context, that.context) && Objects.equals(parent, that.parent)
-                && Objects.equals(interpreter, that.interpreter);
+        return Objects.equals(context, that.context) && Objects.equals(parent, that.parent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(context, parent, interpreter);
+        return Objects.hash(context, parent);
     }
 
     public boolean containsKey(String key) {
