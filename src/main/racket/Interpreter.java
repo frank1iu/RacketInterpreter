@@ -335,13 +335,6 @@ public class Interpreter extends EventEmitter implements FileReader, FileWriter 
                 .getValue()), null);
     }
 
-    // REQUIRES: three integer args
-    // MODIFIES: none
-    // EFFECTS: returns the product of the args
-    private Thing mult3(Thing[] args) throws RacketSyntaxError {
-        return mult(new Thing[]{args[0], mult(new Thing[]{args[1], args[2]})});
-    }
-
     // REQUIRES: two integer args
     // MODIFIES: none
     // EFFECTS: returns the args[0]^args[1]

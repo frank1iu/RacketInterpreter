@@ -107,13 +107,6 @@ public class Thing {
     }
 
     // REQUIRES: none
-    // MODIFIES: none
-    // EFFECTS: returns a string representation of this, along with its type
-    public String stringify() {
-        return this.getType().toString() + this.toString();
-    }
-
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: adds a child to this
     public void addChild(Thing child) {
