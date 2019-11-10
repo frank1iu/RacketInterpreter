@@ -62,6 +62,7 @@ public class Interpreter implements FileReader, FileWriter {
                 continue;
             }
             ret = this.eval(new Tokenizer(expression).split().tokenize().getThing());
+            this.emit("execProgram.LineExecuted", ret);
         }
         return ret;
     }

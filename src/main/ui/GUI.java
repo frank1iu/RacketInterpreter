@@ -12,11 +12,15 @@ import java.net.InetSocketAddress;
 
 public class GUI {
     public static void main(String[] args) throws IOException {
+        makeServer();
+        Runtime.getRuntime().exec("/Users/Frank_L/Desktop/gui/start.sh");
+    }
+
+    public static void makeServer() throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(27999), 0);
         server.createContext("/exec", new ExecHandler());
         server.setExecutor(null);
         server.start();
-        Runtime.getRuntime().exec("/Users/Frank_L/Desktop/gui/start.sh");
     }
 
     static class ExecHandler implements HttpHandler {

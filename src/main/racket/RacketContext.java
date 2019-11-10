@@ -3,7 +3,7 @@ package racket;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class RacketContext {
+public class RacketContext extends EventEmitter {
     private HashMap<String, Thing> context;
     private RacketContext parent;
 
@@ -34,9 +34,11 @@ public class RacketContext {
 
     public Thing get(String key) {
         if (this.context.containsKey(key)) {
+            this.emit("getQuerySuccess", key + ": " + this.context.get(key));
             return this.context.get(key);
         } else {
             if (this.parent != null) {
+                this.emit("getQuerySuccess", key + ": " + this.parent.get(key));
                 return this.parent.get(key);
             } else {
                 return null;
@@ -67,6 +69,7 @@ public class RacketContext {
     }
 
     public boolean containsKey(String key) {
+        this.emit("containsKeyQuery", key);
         if (this.context.containsKey(key)) {
             return true;
         } else {

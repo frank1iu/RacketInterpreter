@@ -12,6 +12,7 @@ public class RacketPair extends Thing {
         }
         this.thing1 = thing1;
         this.thing2 = thing2;
+        super.setType(Type.PAIR);
     }
 
     public Thing first() {

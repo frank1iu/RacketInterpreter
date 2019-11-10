@@ -31,6 +31,10 @@ public class Thing {
         this.setValue(value);
     }
 
+    protected void setType(Type type) {
+        this.type = type;
+    }
+
     protected void setValue(String value) {
         if (value.startsWith("\"")) {
             if (!value.endsWith("\"") || value.length() == 1) {
