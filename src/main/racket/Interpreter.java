@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Interpreter implements FileReader, FileWriter {
+public class Interpreter extends EventEmitter implements FileReader, FileWriter {
     public RacketContext getContext() {
         return context;
     }
@@ -22,6 +22,10 @@ public class Interpreter implements FileReader, FileWriter {
     }
 
     private RacketContext context;
+
+    public Interpreter() {
+        this(null);
+    }
 
     public Interpreter(RacketContext context) {
         if (context == null) {
@@ -58,9 +62,6 @@ public class Interpreter implements FileReader, FileWriter {
         Thing ret = null;
         for (String expression : expressions) {
             final String line = expression.replaceAll("\\s+", " ").replaceAll("\n", "");
-            if (line.startsWith(";")) {
-                continue;
-            }
             ret = this.eval(new Tokenizer(expression).split().tokenize().getThing());
             this.emit("execProgram.LineExecuted", ret);
         }
@@ -71,11 +72,12 @@ public class Interpreter implements FileReader, FileWriter {
     // MODIFIES: this
     // EFFECTS: evaluates program
     public Thing eval(Thing program) throws RacketSyntaxError {
+        this.emit("programBeforeExecuted", program.toString());
         if (program.getChildren().size() == 0) {
-            if (program.getType() == Type.EMPTY) {
-                return program;
-            }
-            if (program.getType() == Type.IDENTIFIER) {
+            if (program.getType() == Type.IDENTIFIER && program.getType() != Type.EMPTY) {
+                if (!context.containsKey(program.getValue().toString())) {
+                    throw new GenericRacketError(program.getValue().toString() + ": this variable is not defined");
+                }
                 Thing thing = context.get(program.getValue().toString());
                 if (thing.getType() == Type.IDENTIFIER || thing.getChildren().size() != 0) {
                     return eval(thing);
@@ -87,8 +89,7 @@ public class Interpreter implements FileReader, FileWriter {
             }
         }
         final Thing[] args = program.getChildren().toArray(new Thing[program.getChildren().size()]);
-        final String op = program.getValue().toString();
-        return switchStatement(op, args, program);
+        return switchStatement(program.getValue().toString(), args, program);
     }
 
     private Thing switchStatement(String op, Thing[] args, Thing program) throws RacketSyntaxError {
