@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Docter Racquet</title>
+    <script src="anime.min.js"></script>
+    <style>
+    .val {
+      font-size: 1.5em;
+    }
+    </style>
+  </head>
+  <body>
+    <div style="margin-top: 18vh; text-align: center;">
+      <img src="top.png" style="height: 50vh; margin-bottom: -1vh;"/><br>
+      <video width="28.5%" id="loading" autoplay muted>
+        <source src="loadr.mov" type="video/mp4">
+      </video>
+    </div>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+    <script>
+      document.getElementById('loading').addEventListener('ended', process_exit, false);
+    </script>
+  </body>
+</html>
