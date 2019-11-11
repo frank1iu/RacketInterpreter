@@ -37,33 +37,12 @@ public class RacketContext extends EventEmitter {
     // MODIFIES: none
     // EFFECTS: returns whether key is in the RacketContext or any of its parents
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        RacketContext that = (RacketContext) o;
-        return Objects.equals(context, that.context) && Objects.equals(parent, that.parent);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(context, parent);
-    }
-
     public boolean containsKey(String key) {
         this.emit("containsKeyQuery", key);
         if (this.context.containsKey(key)) {
             return true;
         } else {
-            if (this.parent != null && this.parent.containsKey(key)) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.parent != null && this.parent.containsKey(key);
         }
     }
 
