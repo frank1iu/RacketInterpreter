@@ -1,4 +1,4 @@
 *.class
 workspace.xml
 /lib/gui/node_modules/
-/lib/gui/node_modules/*
+/out/
