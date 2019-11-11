@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Docter Racquet</title>
+    <style>
+    .btn {
+      cursor: pointer;
+      text-align: center;
+      background-color: darkblue;
+      padding: 1vh 1vw;
+      margin-right: 2vw;
+      margin-left: 2vw;
+      display: inline-block;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-family: sans-serif;
+    }
+
+    .btn:hover {
+      background-color: blue;
+    }
+
+    .btn:active {
+      background-color: black;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="cat" style="position: absolute; left: 0; top: 10vh; z-index: 2;">
+        <img id="cat-img" src="cat.png" style="width: 5vw"/>
+    </div>
+    <div id="cat-reverse" style="position: absolute; left: 0; top: 70vh; z-index: 2;">
+        <img id="cat-img" src="cat.png" style="width: 5vw"/>
+  </div>
+    <div id="logo" style="text-align: center;">
+      <img src="logo.png" style="height: 30vh" /> <br>
+      <!--<img src="bsl.png" style="width: 40vw" />-->
+    </div>
+    <div style="text-align: center;">
+      <textarea id="code" style="font-family: monospace; resize: none; font-size: 1.5em; outline: none;" placeholder="Enter BSL (Bootleg Student Language) code here" rows="10" cols="75"></textarea>
+      <br>
+      <div style="height: 5vh"></div>
+      <a class="btn" id="eval">Evaluate</a><a class="btn" href="exit.html">Exit</a><a class="btn" id="nr">I'm Stuck</a>
+    </div>
+    <div style="text-align: center; margin-top: 5vh">
+      Result: <span style="font-family: monospace;" id="result">(Press Evaluate)</span>
+    </div>
+    <script>
+      document.getElementById("eval").addEventListener("click", () => {
+        racketEval(document.getElementById("code").value).then(result => document.getElementById("result").innerHTML = result).catch(error => document.getElementById("result").innerHTML = `[ERR: ${error}]`);
+      });
+      document.getElementById("nr").addEventListener("click", () => {
+        const nr = new Audio("nr.mp3");
+        nr.play();
+      });
+      let catX = 0;
+      function update() {
+        if (catX >= window.innerWidth - document.getElementById("cat-img").width) {
+          catX = 0;
+        } else {
+          catX += 3;
+        }
+        catX = Math.min(catX, window.innerWidth - document.getElementById("cat-img").width);
+        document.getElementById("cat").style.left = catX + "px";
+        document.getElementById("cat-reverse").style.left = (window.innerWidth - catX - document.getElementById("cat-img").width) + "px";
+        requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    </script>
+  </body>
+</html>
