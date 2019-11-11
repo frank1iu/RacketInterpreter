@@ -1,2 +1,3 @@
 *.class
 workspace.xml
+/lib/gui/node_modules/
