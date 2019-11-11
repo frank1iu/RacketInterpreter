@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import racket.AbstractRacketError;
 import racket.Interpreter;
+import racket.RacketLogger;
 
 import java.io.IOException;
 import java.io.OutputStream;
