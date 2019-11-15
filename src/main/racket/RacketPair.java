@@ -15,11 +15,11 @@ public class RacketPair extends Thing {
         super.setType(Type.PAIR);
     }
 
-    public Thing first() {
+    protected Thing first() {
         return thing1;
     }
 
-    public Thing rest() {
+    protected Thing rest() {
         return thing2;
     }
 

@@ -35,8 +35,8 @@
         <img id="cat-img" src="cat.png" style="width: 5vw"/>
   </div>
     <div id="logo" style="text-align: center;">
-      <img src="logo.png" style="height: 30vh" /> <br>
-      <!--<img src="bsl.png" style="width: 40vw" />-->
+      <img id="logo-img" src="logo.png" style="height: 30vh" /> <br>
+      <img id="nr-img" src="nr.png" style="display: none; height: 30vh" />
     </div>
     <div style="text-align: center;">
       <textarea id="code" style="font-family: monospace; resize: none; font-size: 1.5em; outline: none;" placeholder="Enter BSL (Bootleg Student Language) code here" rows="10" cols="75"></textarea>
@@ -54,7 +54,17 @@
       document.getElementById("nr").addEventListener("click", () => {
         const nr = new Audio("nr.mp3");
         nr.play();
+        showNr();
+        nr.addEventListener("ended", hideNr);
       });
+      function showNr() {
+        document.getElementById("logo-img").style.display = "none";
+        document.getElementById("nr-img").style.display = "inline-block";
+      }
+      function hideNr() {
+        document.getElementById("logo-img").style.display = "inline-block";
+        document.getElementById("nr-img").style.display = "none";
+      }
       let catX = 0;
       function update() {
         if (catX >= window.innerWidth - document.getElementById("cat-img").width) {

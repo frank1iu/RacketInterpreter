@@ -7,6 +7,8 @@ import java.util.List;
 public class EventEmitter {
     private HashMap<String, List<EventListener>> eventListeners = new HashMap<>();
 
+    // MODIFIES: this
+    // EFFECTS: attaches an EventListener to this, which listens for event event
     public void on(String event, EventListener eventListener) {
         if (!this.eventListeners.containsKey(event)) {
             ArrayList<EventListener> list = new ArrayList<>();

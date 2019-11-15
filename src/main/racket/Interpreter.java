@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Interpreter extends EventEmitter implements FileReader, FileWriter {
+public class Interpreter extends EventEmitter {
     public RacketContext getContext() {
         return context;
     }
 
-    public void setContext(RacketContext context) {
+    private void setContext(RacketContext context) {
         this.context = context;
     }
 

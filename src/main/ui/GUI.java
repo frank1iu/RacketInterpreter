@@ -12,49 +12,54 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
 public class GUI {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
+    private static final int PORT = 27999;
 
     public static void main(String[] args) throws IOException {
         makeHttpServer();
         Runtime.getRuntime().exec(System.getProperty("user.dir") + "/lib/gui/start.sh");
     }
 
-    // REQUIRES: Port 27999 is open
-    // EFFECTS: Opens HTTP server on *:27999 that listens to racket execution on /exec
+    // REQUIRES: Port *:this.PORT is open
+    // EFFECTS: Opens HTTP server on *:this.PORT
+    //
+    //          Supported methods and entry points:
+    //            GET /exec
+    //              Parameters:
+    //                program: String
+    //              Description:
+    //                evaluates a racket program, returns the string value of the result
 
     public static void makeHttpServer() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(27999), 0);
+        System.out.println("Racket interpretation server listening on *:" + PORT);
+        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/exec", new ExecHandler());
         server.setExecutor(null);
         server.start();
     }
 
-    static class ExecHandler implements HttpHandler {
+    private static class ExecHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange req) throws IOException {
             final String program = req.getRequestURI().getQuery().substring(8);
             final String response = eval(program);
             req.sendResponseHeaders(200, response.length());
-            OutputStream os = req.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+            OutputStream output = req.getResponseBody();
+            output.write(response.getBytes());
+            output.close();
         }
 
         private String eval(String program) {
-            // TODO delete the if{} after deliverable 10
-            if (program.equals("deliverable10")) {
-                return "{\"a\": " + Math.random() + "}";
-            }
             final Interpreter interpreter = new Interpreter(null);
-            //RacketLogger logger = new RacketLogger();
-            //if (DEBUG) {
-            //    interpreter.on("programBeforeExecuted", logger);
-            //}
+            RacketLogger logger = new RacketLogger();
+            if (DEBUG) {
+                interpreter.on("programBeforeExecuted", logger);
+            }
             try {
                 String ret = interpreter.execProgram(program).toString();
-                //for (String entry : logger.getLog()) {
-                //    System.out.println("[RacketLogger] " + entry);
-                //}
+                for (String entry : logger.getLog()) {
+                    System.out.println("[RacketLogger] " + entry);
+                }
                 return ret;
             } catch (AbstractRacketError e) {
                 return e.toString();

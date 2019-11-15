@@ -22,11 +22,6 @@ public class TestGUI {
         assertEquals(result.trim(), "16");
         String result2 = httpGet(new URL(url + "(=%202%204)"));
         assertEquals(result2.trim(), "false");
-        // TODO delete next 4 lines after deliverable 10
-        String deliverable10 = httpGet(new URL(url + "deliverable10"));
-        System.out.println("The JSON obtained from the API is: " + deliverable10);
-        double a = Double.parseDouble(deliverable10.split("}")[0].split(":")[1]);
-        System.out.println("Value of a in the JSON is: " + a);
         System.exit(0);
     }
 
