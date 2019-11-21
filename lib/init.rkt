@@ -48,3 +48,26 @@
       (abs a)
       (gcd (abs b)
            (mod (abs a) (abs b)))))
+
+(define (add1 a)
+  (+ 1 a))
+
+(define (sub1 a)
+  (- a 1))
+
+(define (map fn lox)
+  (if (empty? lox)
+      empty
+      (cons (fn (first lox))
+            (map fn (rest lox)))))
+
+(define (identity x) x)
+
+(define (build-list n f)
+  (BUILD-LIST-INTERNAL-WITH-ACCUMULATOR n f 0))
+
+(define (BUILD-LIST-INTERNAL-WITH-ACCUMULATOR target f acc)
+  (if (= acc n)
+      empty
+      (cons (f acc)
+            (BUILD-LIST-INTERNAL-WITH-ACCUMULATOR target f (+ acc 1)))))

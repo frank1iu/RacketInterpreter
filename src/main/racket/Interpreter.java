@@ -58,7 +58,6 @@ public class Interpreter extends EventEmitter {
         final ArrayList<String> expressions = new ArrayList<String>(Arrays.asList(program.split("\n\n")));
         Thing ret = null;
         for (String expression : expressions) {
-            final String line = expression.replaceAll("\\s+", " ").replaceAll("\n", "");
             ret = this.eval(new Tokenizer(expression).split().tokenize().getThing());
             this.emit("execProgram.LineExecuted", ret);
         }
@@ -71,22 +70,26 @@ public class Interpreter extends EventEmitter {
     public Thing eval(Thing program) throws RacketSyntaxError {
         this.emit("programBeforeExecuted", program.toString());
         if (program.getChildren().size() == 0) {
-            if (program.getType() == Type.IDENTIFIER && program.getType() != Type.EMPTY) {
-                if (!context.containsKey(program.getValue().toString())) {
-                    throw new GenericRacketError(program.getValue().toString() + ": this variable is not defined");
-                }
-                Thing thing = context.get(program.getValue().toString());
-                if (thing.getType() == Type.IDENTIFIER || thing.getChildren().size() != 0) {
-                    return eval(thing);
-                } else {
-                    return thing;
-                }
-            } else {
-                return program;
-            }
+            return processOne(program);
         }
         final Thing[] args = program.getChildren().toArray(new Thing[program.getChildren().size()]);
         return switchStatement(program.getValue().toString(), args, program);
+    }
+
+    private Thing processOne(Thing program) {
+        if (program.getType() == Type.IDENTIFIER && program.getType() != Type.EMPTY) {
+            if (!context.containsKey(program.getValue().toString())) {
+                throw new GenericRacketError(program.getValue().toString() + ": this variable is not defined");
+            }
+            Thing thing = context.get(program.getValue().toString());
+            if (thing.getType() == Type.IDENTIFIER || thing.getChildren().size() != 0) {
+                return eval(thing);
+            } else {
+                return thing;
+            }
+        } else {
+            return program;
+        }
     }
 
     private Thing switchStatement(String op, Thing[] args, Thing program) throws RacketSyntaxError {
@@ -156,6 +159,8 @@ public class Interpreter extends EventEmitter {
                 return this.rest(args);
             case "empty?":
                 return this.empty(args);
+            case "lambda":
+                return this.lambda(args);
             default:
                 return switchStatementDefault(op, args, program);
         }
@@ -171,6 +176,14 @@ public class Interpreter extends EventEmitter {
         } else {
             throw new RacketSyntaxError(op + ": this function is not defined", program);
         }
+    }
+
+    private RacketFunc lambda(Thing[] args) {
+        ArrayList<String> params = new ArrayList<String>();
+        for (Thing arg: args[0].flat()) {
+            params.add(arg.toString());
+        }
+        return new RacketFunc("(anonymous)", args[1], params.toArray(new String[params.size()]));
     }
 
     private Thing first(Thing[] args) {

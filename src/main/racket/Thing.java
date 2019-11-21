@@ -119,4 +119,11 @@ public class Thing {
     public void addChildren(ArrayList<Thing> children) {
         this.children.addAll(children);
     }
+
+    protected ArrayList<Thing> flat() {
+        ArrayList<Thing> ret = new ArrayList<>();
+        ret.add(this);
+        ret.addAll(this.children);
+        return ret;
+    }
 }

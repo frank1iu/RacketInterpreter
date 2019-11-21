@@ -1,7 +1,7 @@
 package racket;
 
 public abstract class AbstractRacketError extends RuntimeException {
-    public AbstractRacketError(String message) {
+    protected AbstractRacketError(String message) {
         super(message);
     }
 

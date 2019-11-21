@@ -12,6 +12,7 @@ public class RacketFunc extends Thing {
         super(value, null);
         this.params = params;
         this.body = body;
+        super.setType(Type.FUNCTION);
     }
 
     // REQUIRES: none
@@ -36,8 +37,8 @@ public class RacketFunc extends Thing {
     @Override
     public String toString() {
         String ret = "(" + this.getValue().toString();
-        for (int i = 0; i < params.length; i++) {
-            ret = ret + " " + params[i];
+        for (String param : params) {
+            ret = ret + " " + param;
         }
         ret = ret + ")";
         return ret;

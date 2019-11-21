@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EventEmitter {
+public abstract class EventEmitter {
     private HashMap<String, List<EventListener>> eventListeners = new HashMap<>();
 
     // MODIFIES: this
@@ -20,9 +20,7 @@ public class EventEmitter {
     }
 
     protected void emit(String event, Object data) {
-        if (!this.eventListeners.containsKey(event)) {
-            return;
-        } else {
+        if (this.eventListeners.containsKey(event)) {
             for (EventListener eventListener : this.eventListeners.get(event)) {
                 eventListener.update(event, data);
             }

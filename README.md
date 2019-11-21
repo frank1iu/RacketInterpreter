@@ -7,7 +7,7 @@ cd lib/gui
 npm install
 ```
 
-And then you can run the program with GUI with `ui.GUI.main()`. Port 27999 must be open for it to work.
+And then you can run the program with GUI with `ui.GUI.main()`. Port 27999 must be open for it to work. (Make sure Port 27999 is not being forwarded to the internet!)
 
 To run just the GUI, use:
 

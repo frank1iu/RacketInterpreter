@@ -10,14 +10,24 @@ import racket.RacketLogger;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 
 public class GUI {
+    // Disclaimer: this class was influenced by an implementation found here:
+    // https://stackoverflow.com/questions/3732109/simple-http-server-in-java-using-only-java-se-api
     private static final boolean DEBUG = true;
     private static final int PORT = 27999;
 
     public static void main(String[] args) throws IOException {
         makeHttpServer();
-        Runtime.getRuntime().exec(System.getProperty("user.dir") + "/lib/gui/start.sh");
+        final Scanner sc = new Scanner(System.in);
+        System.out.println("\nSpawn the GUI client? y/n");
+        System.out.print("> ");
+        if (sc.nextLine().trim().equals("y")) {
+            Runtime.getRuntime().exec(System.getProperty("user.dir") + "/lib/gui/start.sh");
+        } else {
+            System.exit(0);
+        }
     }
 
     // REQUIRES: Port *:this.PORT is open
@@ -31,7 +41,7 @@ public class GUI {
     //                evaluates a racket program, returns the string value of the result
 
     public static void makeHttpServer() throws IOException {
-        System.out.println("Racket interpretation server listening on *:" + PORT);
+        System.out.println("Racket interpretation server listening on http://127.0.0.1:" + PORT);
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/exec", new ExecHandler());
         server.setExecutor(null);

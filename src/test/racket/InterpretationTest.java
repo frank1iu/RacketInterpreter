@@ -184,4 +184,10 @@ public class InterpretationTest {
         }
         Assertions.assertEquals(eval("(load \"541fbefb712e83c314e9f8e73910e09128f42ace\")"), "(void)");
     }
+
+    @Test
+    public void testLambda() {
+        eval("(define (apply a b) (a b))");
+        Assertions.assertEquals(eval("(apply (lambda (x) (+ 2 x)) 3)"), "5");
+    }
 }
