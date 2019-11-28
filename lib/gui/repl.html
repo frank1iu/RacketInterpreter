@@ -39,7 +39,9 @@
       <img id="nr-img" src="nr.png" style="display: none; height: 30vh" />
     </div>
     <div style="text-align: center;">
-      <textarea id="code" style="font-family: monospace; resize: none; font-size: 1.5em; outline: none;" placeholder="Enter BSL (Bootleg Student Language) code here" rows="10" cols="75"></textarea>
+      <img class="spin" src="ex.png" style="width: 15vw;" />
+      <textarea id="code" style="font-family: monospace; resize: none; font-size: 1.5em; outline: none; margin-left: 5vw; margin-right: 5vw;" placeholder="Enter BSL (Bootleg Student Language) code here" rows="10" cols="65"></textarea>
+      <img class="spin" src="ex.png" style="width: 15vw;" />
       <br>
       <div style="height: 5vh"></div>
       <a class="btn" id="eval">Evaluate</a><a class="btn" href="exit.html">Exit</a><a class="btn" id="nr">I'm Stuck</a>
@@ -66,7 +68,17 @@
         document.getElementById("nr-img").style.display = "none";
       }
       let catX = 0;
+      let spinAngle = 0;
       function update() {
+        const spinElements = Array.from(document.getElementsByClassName("spin"));
+        if (spinAngle >= 360) {
+          spinAngle = 0;
+        } else {
+          spinAngle += Math.round(Math.max(1, (spinAngle % 30) / 10));
+        }
+        spinElements.forEach(el => {
+          el.style.transform = "rotate(" + spinAngle + "deg)";
+        });
         if (catX >= window.innerWidth - document.getElementById("cat-img").width) {
           catX = 0;
         } else {
