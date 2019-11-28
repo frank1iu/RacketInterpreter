@@ -34,6 +34,9 @@ public class RacketFunc extends Thing {
         }
     }
 
+    // REQUIRES: none
+    // MODIFIES: none
+    // EFFECTS: returns a string representation of this
     @Override
     public String toString() {
         String ret = "(" + this.getValue().toString();

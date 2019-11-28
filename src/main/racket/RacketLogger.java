@@ -13,6 +13,9 @@ public class RacketLogger implements EventListener {
         this.log = new ArrayList<>();
     }
 
+    // REQUIRES: none
+    // MODIFIES: this
+    // EFFECTS: add an event with the associated data to this.log
     @Override
     public void update(String event, Object data) {
         this.log.add("[" + event + "] " + data);

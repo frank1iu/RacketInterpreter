@@ -23,6 +23,9 @@ public class RacketPair extends Thing {
         return thing2;
     }
 
+    // REQUIRES: none
+    // MODIFIES: none
+    // EFFECTS: returns a string representation of this
     @Override
     public String toString() {
         return "(cons " + thing1.toString() + " " + thing2.toString() + ")";
