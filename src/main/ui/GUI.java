@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 public class GUI {
-    // Disclaimer: this class was influenced by an implementation found here:
+    // This class was influenced by an implementation found here:
     // https://stackoverflow.com/questions/3732109/simple-http-server-in-java-using-only-java-se-api
     private static final boolean DEBUG = true;
     private static final int PORT = 27999;
