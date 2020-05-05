@@ -1,1 +1,3 @@
-electron ~/IdeaProjects/project_b1h2b/lib/gui
+#!/bin/sh
+
+electron ./lib/gui
